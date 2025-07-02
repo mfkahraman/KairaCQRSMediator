@@ -1,12 +1,20 @@
 using KairaCQRSMediator.DataAccess.Context;
+using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
+using KairaCQRSMediator.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<KairaContext>(opt=>
+builder.Services.AddScoped<GetCategoryQueryHandler>();
+builder.Services.AddScoped<GetCategoryByIdQueryHandler>();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
+
+builder.Services.AddDbContext<KairaContext>(options=>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
 });
 
 builder.Services.AddControllersWithViews();
@@ -27,6 +35,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+     name: "areas",
+     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+   );
 
 app.MapControllerRoute(
     name: "default",

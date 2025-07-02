@@ -1,14 +1,15 @@
-﻿using KairaCQRSMediator.DataAccess.Entities;
+﻿using KairaCQRSMediator.DataAccess.Context;
+using KairaCQRSMediator.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KairaCQRSMediator.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class, IEntity
     {
-        private readonly DbContext _context;
+        private readonly KairaContext _context;
         private readonly DbSet<T> _table;
 
-        public GenericRepository(DbContext context)
+        public GenericRepository(KairaContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _table = _context.Set<T>();
