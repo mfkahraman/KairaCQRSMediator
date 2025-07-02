@@ -2,7 +2,7 @@
 
 namespace KairaCQRSMediator.DataAccess.Entities
 {
-    public class Product
+    public class Product : IEntity
     {
         [Key]
         public int Id { get; set; }

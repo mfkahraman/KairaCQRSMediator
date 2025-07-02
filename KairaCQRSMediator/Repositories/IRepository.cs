@@ -1,6 +1,8 @@
-﻿namespace KairaCQRSMediator.Repositories
+﻿using KairaCQRSMediator.DataAccess.Entities;
+
+namespace KairaCQRSMediator.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IEntity
     {
         Task<List<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);
