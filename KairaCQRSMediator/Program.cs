@@ -1,6 +1,14 @@
+using KairaCQRSMediator.DataAccess.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<KairaContext>(opt=>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
