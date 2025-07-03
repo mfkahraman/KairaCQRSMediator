@@ -23,10 +23,10 @@
             <td>@count</td>
             <td>@item.Name</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                <a asp-area="Admin" asp-controller="Category" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary">Güncelle</a>
+                <a asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
             </td>
         </tr>
     }
 </table>
-<a href="#" class="btn btn-primary">Yeni Kategori</a>
+<a asp-action="CreateCategory" class="btn btn-primary">Yeni Kategori</a>

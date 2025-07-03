@@ -1,0 +1,24 @@
+﻿@model CreateCategoryCommand
+
+@{
+    ViewData["Title"] = "CreateCategory";
+}
+
+<h3>Kategori Oluştur</h3>
+
+<form asp-action="CreateCategory" method="post">
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="ImageUrl" class="control-label"></label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn-success">Oluştur</button>
+</form>
