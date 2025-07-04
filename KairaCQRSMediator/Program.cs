@@ -1,11 +1,27 @@
 using KairaCQRSMediator.DataAccess.Context;
 using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
+using KairaCQRSMediator.Mappings;
 using KairaCQRSMediator.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Automapper registation
+// Automapper registration
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddMaps(Assembly.GetExecutingAssembly());
+});
+
+//MediatR registration
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+});
+
 builder.Services.AddScoped<GetCategoryQueryHandler>();
 builder.Services.AddScoped<GetCategoryByIdQueryHandler>();
 builder.Services.AddScoped<CreateCategoryCommandHandler>();

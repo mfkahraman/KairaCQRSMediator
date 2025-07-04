@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.0" />
+    <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -18,7 +20,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Features\Mediator\" />
+    <Folder Include="Features\Mediator\Commands\" />
   </ItemGroup>
 
 </Project>

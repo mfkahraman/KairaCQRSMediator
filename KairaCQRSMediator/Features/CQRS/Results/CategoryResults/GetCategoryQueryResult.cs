@@ -1,4 +1,4 @@
-﻿using KairaCQRSMediator.DataAccess.Entities;
+﻿using KairaCQRSMediator.Features.Mediator.Results.ProductResults;
 
 namespace KairaCQRSMediator.Features.CQRS.Results.CategoryResults
 {
@@ -7,7 +7,7 @@ namespace KairaCQRSMediator.Features.CQRS.Results.CategoryResults
         public required int Id { get; set; }
         public string? Name { get; set; }
         public string? ImageUrl { get; set; }
-        public IList<Product>? Products { get; set; }
+        public IList<GetProductsQueryResult>? Products { get; set; }
 
     }
 }
