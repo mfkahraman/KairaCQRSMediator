@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KairaCQRSMediator.DataAccess.Entities;
+using KairaCQRSMediator.Features.Mediator.Commands.ProductCommands;
 using KairaCQRSMediator.Features.Mediator.Results.ProductResults;
 
 namespace KairaCQRSMediator.Mappings
@@ -9,6 +10,7 @@ namespace KairaCQRSMediator.Mappings
         public ProductMapping()
         {
             CreateMap<Product, GetProductsQueryResult>().ReverseMap();   
+            CreateMap<Product, CreateProductCommand>().ReverseMap();   
         }
     }
 }

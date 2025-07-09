@@ -13,8 +13,8 @@ namespace KairaCQRSMediator.Features.Mediator.Handlers.ProductHandlers
     {
         public async Task<List<GetProductsQueryResult>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var prodcuts = await repository.GetAllAsync(include : x=> x.Category);
-            return mapper.Map<List<GetProductsQueryResult>>(prodcuts);
+            var products = await repository.GetAllAsync(include : x=> x.Category);
+            return mapper.Map<List<GetProductsQueryResult>>(products);
         }
     }
 }

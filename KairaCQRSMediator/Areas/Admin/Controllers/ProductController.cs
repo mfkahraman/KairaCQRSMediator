@@ -1,16 +1,40 @@
-﻿using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
+﻿using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
+using KairaCQRSMediator.Features.Mediator.Commands.ProductCommands;
+using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace KairaCQRSMediator.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductController(IMediator mediator) : Controller
+    public class ProductController(IMediator mediator,
+                                   GetCategoryQueryHandler categoryHandler) : Controller
     {
         public async Task<IActionResult> Index()
         {
             var product = await mediator.Send(new GetProductsQuery());
             return View(product);
+        }
+
+        public async Task<IActionResult> CreateProduct()
+        {
+            var categories = await categoryHandler.Handle();
+            ViewBag.Categories = (from x in categories
+                                  select new SelectListItem
+                                  {
+                                      Text = x.Name,
+                                      Value = x.Id.ToString()
+                                  }).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(CreateProductCommand command)
+        {
+            await mediator.Send(command);
+            return RedirectToAction("Index");
         }
     }
 }

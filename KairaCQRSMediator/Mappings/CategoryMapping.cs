@@ -8,7 +8,7 @@ namespace KairaCQRSMediator.Mappings
     {
         public CategoryMapping()
         {
-            CreateMap<Category, GetCategoryByIdQueryResult>().ReverseMap();
+            CreateMap<Category, GetCategoryQueryResult>().ReverseMap();
         }
     }
 }
