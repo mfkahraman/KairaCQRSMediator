@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KairaCQRSMediator.DataAccess.Entities;
 using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
 using KairaCQRSMediator.Features.Mediator.Commands.ProductCommands;
 using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
@@ -65,7 +66,16 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var result = await mediator.Send(new RemoveProductCommand(id));
+            if (!result)
+            {
+                ModelState.AddModelError("", "Ürün silinirken bir sorun oluştu");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
 
 
     }
