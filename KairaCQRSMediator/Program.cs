@@ -1,6 +1,7 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using KairaCQRSMediator.DataAccess.Context;
 using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
-using KairaCQRSMediator.Mappings;
 using KairaCQRSMediator.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -9,12 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-//Automapper registation
 // Automapper registration
 builder.Services.AddAutoMapper(config =>
 {
     config.AddMaps(Assembly.GetExecutingAssembly());
 });
+
+//FluentValidation registration
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters()
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 //MediatR registration
 builder.Services.AddMediatR(cfg =>
