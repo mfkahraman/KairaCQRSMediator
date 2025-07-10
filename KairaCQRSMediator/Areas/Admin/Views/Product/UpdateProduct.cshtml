@@ -7,6 +7,8 @@
 <h3>@ViewData["Title"]</h3>
 
 <form asp-action="UpdateProduct" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <input asp-for="Id" type="hidden" />
 
     <div class="form-group">

@@ -23,32 +23,31 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateProduct()
         {
-            var categories = await categoryHandler.Handle();
-            ViewBag.Categories = (from x in categories
-                                  select new SelectListItem
-                                  {
-                                      Text = x.Name,
-                                      Value = x.Id.ToString()
-                                  }).ToList();
+            ViewBag.Categories = await GetCategories();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductCommand command)
         {
+            ViewBag.Categories = await GetCategories();
+
+            //Fast Fail Yöntemi
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Lütfen tüm alanları doldurun");
+                return View(command);
+            }
+
             await mediator.Send(command);
             return RedirectToAction("Index");
         }
 
+
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            var categories = await categoryHandler.Handle();
-            ViewBag.Categories = (from x in categories
-                                  select new SelectListItem
-                                  {
-                                      Text = x.Name,
-                                      Value = x.Id.ToString()
-                                  }).ToList();
+            ViewBag.Categories = await GetCategories();
+
             var product = await mediator.Send(new GetProductByIdQuery(id));
             var command = mapper.Map<UpdateProductComand>(product);
             return View(command);
@@ -57,6 +56,14 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProductComand command)
         {
+            ViewBag.Categories = await GetCategories();
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Lütfen tüm alanları doldurun");
+                return View(command);
+            }
+
             var result = await mediator.Send(command);
             if (!result)
             {
@@ -76,6 +83,19 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        private async Task<List<SelectListItem>> GetCategories()
+        {
+            var categories = await categoryHandler.Handle();
+            var list = (from x in categories
+                        select new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        }).ToList();
+            return list;
+        }
+
 
 
     }
