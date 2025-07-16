@@ -8,5 +8,6 @@ namespace KairaCQRSMediator.Features.Mediator.Commands.ProductCommands
         public string? ImageUrl { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }

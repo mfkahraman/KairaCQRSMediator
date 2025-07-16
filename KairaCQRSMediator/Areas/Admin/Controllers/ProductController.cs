@@ -3,6 +3,7 @@ using KairaCQRSMediator.DataAccess.Entities;
 using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
 using KairaCQRSMediator.Features.Mediator.Commands.ProductCommands;
 using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
+using KairaCQRSMediator.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +14,8 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController(IMediator mediator,
                                    GetCategoryQueryHandler categoryHandler,
-                                   IMapper mapper) : Controller
+                                   IMapper mapper,
+                                   IImageService imageService) : Controller
     {
         public async Task<IActionResult> Index()
         {
@@ -30,7 +32,13 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductCommand command)
         {
-            ViewBag.Categories = await GetCategories();
+
+            if(command.ImageFile != null)
+            {
+                var imagePath = await imageService.SaveImageAsync(command.ImageFile, "products");
+                command.ImageUrl = imagePath;
+                ModelState.Remove("ImageFile");
+            }
 
             //Fast Fail Yöntemi
             if (!ModelState.IsValid)
@@ -40,6 +48,8 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
             }
 
             await mediator.Send(command);
+
+            ViewBag.Categories = await GetCategories();
             return RedirectToAction("Index");
         }
 
@@ -56,7 +66,16 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProductComand command)
         {
-            ViewBag.Categories = await GetCategories();
+            if (command.ImageFile != null)
+            {
+                //Delete old image if exists
+                if (!string.IsNullOrEmpty(command.ImageUrl))
+                    await imageService.DeleteImageAsync(command.ImageUrl);
+
+                var imagePath = await imageService.SaveImageAsync(command.ImageFile, "products");
+                command.ImageUrl = imagePath;
+                ModelState.Remove("ImageFile");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -70,6 +89,8 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Ürün güncellenirken bir sorun oluştu");
                 return View(command);
             }
+
+            ViewBag.Categories = await GetCategories();
             return RedirectToAction("Index");
         }
 
