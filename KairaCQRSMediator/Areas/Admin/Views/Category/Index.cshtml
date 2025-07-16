@@ -2,31 +2,44 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/AdminLayout.cshtml";
 }
 
-<h3>Kategoriler</h3>
+<h2 class="mb-4 text-primary">
+    <i class="fas fa-images me-2"></i>Kategoriler
+</h2>
 @{
     int count = 0;
 }
 
-<table class="table table-bordered table-hover">
-    <tr>
-        <th>#</th>
-        <th>Kategori Adı</th>
-        <th>İşlemler</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        count++;
+<table class="table table-bordered table-hover text-center align-middle">
+    <thead class="table-primary">
         <tr>
-            <td>@count</td>
-            <td>@item.Name</td>
-            <td>
-                <a asp-area="Admin" asp-controller="Category" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary">Güncelle</a>
-                <a asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
-            </td>
+            <th>#</th>
+            <th>Kategori Görseli</th>
+            <th>Kategori Adı</th>
+            <th>İşlemler</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            count++;
+            <tr>
+                <td>@count</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" width="100" height="100" class="rounded shadow-sm" alt="Kategori Görseli" />
+                    }
+                </td>
+                <td>@item.Name</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary">Güncelle</a>
+                    <a asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 <a asp-action="CreateCategory" class="btn btn-primary">Yeni Kategori</a>

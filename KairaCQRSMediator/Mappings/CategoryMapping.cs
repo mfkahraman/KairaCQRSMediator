@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KairaCQRSMediator.DataAccess.Entities;
+using KairaCQRSMediator.Features.CQRS.Commands.CategoryCommands;
 using KairaCQRSMediator.Features.CQRS.Results.CategoryResults;
 
 namespace KairaCQRSMediator.Mappings
@@ -9,6 +10,7 @@ namespace KairaCQRSMediator.Mappings
         public CategoryMapping()
         {
             CreateMap<Category, GetCategoryQueryResult>().ReverseMap();
+            CreateMap<UpdateCategoryCommand, GetCategoryByIdQueryResult>().ReverseMap();
         }
     }
 }

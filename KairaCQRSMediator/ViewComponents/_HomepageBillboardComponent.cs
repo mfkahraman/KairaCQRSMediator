@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairaCQRSMediator.ViewComponents
 {
-    public class _HomepageBillboardComponent : ViewComponent
+    public class _HomepageBillboardComponent(IMediator mediator) : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
-            return View();
+            var products = mediator.Send(new GetProductsQuery());
+            return View(products);
         }
     }
 }

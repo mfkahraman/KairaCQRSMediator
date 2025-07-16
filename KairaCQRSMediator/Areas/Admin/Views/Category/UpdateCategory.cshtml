@@ -1,26 +1,33 @@
-﻿@model GetCategoryByIdQueryResult
+﻿@model UpdateCategoryCommand
 
 @{
-    ViewData["Title"] = "UpdateCategory";
+    ViewData["Title"] = "Kategori Güncelle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/AdminLayout.cshtml";
 }
 
-<h3>Kategori Güncelle</h3>
+<h2 class="mt-4 mb-3">@ViewData["Title"]</h2>
 
-<form asp-action="UpdateCategory" method="post">
-    <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
+<form asp-action="UpdateCategory" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="ImageUrl" type="hidden" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <br />
-    <div class="form-group">
-        <label asp-for="ImageUrl" class="control-label"></label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+    <div class="mb-3">
+        <label asp-for="ImageFile" class="form-label"></label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
     </div>
-    <br />
-    <button type="submit" class="btn-success">Güncelle</button>
+
+    <button type="submit" class="btn btn-primary">Oluştur</button>
+    <a asp-action="Index" class="btn btn-danger">İptal</a>
+
 </form>
 
