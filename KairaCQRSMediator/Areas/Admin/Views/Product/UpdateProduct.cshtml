@@ -2,39 +2,46 @@
 
 @{
     ViewData["Title"] = "Ürün Güncelle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/AdminLayout.cshtml";
 }
 
-<h3>@ViewData["Title"]</h3>
+<h2 class="mt-4 mb-3">@ViewData["Title"]</h2>
 
-<form asp-action="UpdateProduct" method="post">
+<form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <input asp-for="Id" type="hidden" />
+    <input asp-for="ImageUrl" type="hidden" />
 
-    <div class="form-group">
-        <label asp-for="Name" class="control-label">Ürün Adı</label>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Ürün Adı</label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <br />
-    <div class="form-group">
-        <label asp-for="Price" class="control-label">Fiyatı</label>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Fiyatı</label>
         <input asp-for="Price" class="form-control" type="number" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
-    <br />
-    <div class="form-group">
-        <label for="CategoryId" class="control-label">Ürünün Kategorisi</label>
+
+    <div class="mb-3">
+        <label for="CategoryId" class="form-label">Ürünün Kategorisi</label>
         <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
-    <br />
-    <div class="form-group">
-        <label asp-for="ImageUrl" class="control-label"></label>
-        <input asp-for="ImageUrl" class="form-control" />
+
+    <div class="mb-3">
+        <label asp-for="ImageFile" class="form-label"></label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>
-    <br />
-    <button type="submit" class="btn-success">Oluştur</button>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-success me-2">
+            <i class="fas fa-save me-1"></i> Güncelle
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </div>
 </form>

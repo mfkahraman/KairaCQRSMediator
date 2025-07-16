@@ -37,8 +37,10 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
             {
                 var imagePath = await imageService.SaveImageAsync(command.ImageFile, "products");
                 command.ImageUrl = imagePath;
-                ModelState.Remove("ImageFile");
+                ModelState.Remove("ImageUrl");
             }
+
+            ViewBag.Categories = await GetCategories();
 
             //Fast Fail Yöntemi
             if (!ModelState.IsValid)
@@ -48,8 +50,6 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
             }
 
             await mediator.Send(command);
-
-            ViewBag.Categories = await GetCategories();
             return RedirectToAction("Index");
         }
 
@@ -74,8 +74,10 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
 
                 var imagePath = await imageService.SaveImageAsync(command.ImageFile, "products");
                 command.ImageUrl = imagePath;
-                ModelState.Remove("ImageFile");
+                ModelState.Remove("ImageUrl");
             }
+
+            ViewBag.Categories = await GetCategories();
 
             if (!ModelState.IsValid)
             {
@@ -90,12 +92,22 @@ namespace KairaCQRSMediator.Areas.Admin.Controllers
                 return View(command);
             }
 
-            ViewBag.Categories = await GetCategories();
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            var product = await mediator.Send(new GetProductByIdQuery(id));
+            if (product == null)
+            {
+                ModelState.AddModelError("", "Ürün bulunamadı");
+                return RedirectToAction("Index");
+            }
+
+            //Delete image if exists
+            if (!string.IsNullOrEmpty(product.ImageUrl))
+                await imageService.DeleteImageAsync(product.ImageUrl);
+
             var result = await mediator.Send(new RemoveProductCommand(id));
             if (!result)
             {

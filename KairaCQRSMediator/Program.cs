@@ -34,6 +34,7 @@ builder.Services.AddScoped<RemoveCategoryCommandHandler>();
 builder.Services.AddScoped<UpdateCategoryCommandHandler>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IImageService, ImageService>();
 
 
 builder.Services.AddDbContext<KairaContext>(options=>
