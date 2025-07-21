@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairaCQRSMediator.ViewComponents
 {
-    public class _HomepageBestSellersComponent : ViewComponent
+    public class _HomepageBestSellersComponent(IMediator mediator) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult InvokeAsync()
         {
+            var bestSellers = mediator.Send(new GetProduc)
             return View();
         }
     }
