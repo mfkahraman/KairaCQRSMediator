@@ -16,7 +16,7 @@
 <table class="table table-bordered table-hover text-center align-middle">
     <thead class="table-primary">
         <tr>
-            <th>#</th>
+            <th>Id</th>
             <th>Ürün Fotoğrafı</th>
             <th>Ürün Adı</th>
             <th>Ürün Fiyatı</th>
@@ -29,7 +29,7 @@
         {
             count++;
             <tr>
-                <td>@count</td>
+                <td>@item.Id</td>
                 <td>
                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                     {

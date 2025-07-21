@@ -1,14 +1,20 @@
-﻿using MediatR;
+﻿using KairaCQRSMediator.DataAccess.Entities;
+using KairaCQRSMediator.Features.Mediator.Queries.ProductQueries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace KairaCQRSMediator.ViewComponents
 {
     public class _HomepageBestSellersComponent(IMediator mediator) : ViewComponent
     {
-        public IViewComponentResult InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var bestSellers = mediator.Send(new GetProduc)
-            return View();
+            List<int> ids = new() {1, 2, 6 };
+
+            var bestSellers = await mediator.Send(new GetProductsByFilterQuery(p => ids.Contains(p.Id)));
+
+            return View(bestSellers);
         }
     }
 }

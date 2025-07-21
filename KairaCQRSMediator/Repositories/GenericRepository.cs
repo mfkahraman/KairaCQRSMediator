@@ -43,6 +43,15 @@ namespace KairaCQRSMediator.Repositories
             return await _table.AsNoTracking().ToListAsync();
         }
 
+        public async Task<List<Product>> GetProductsByFilterAsync(Expression<Func<Product, bool>> filter)
+        {
+            return await _context.Products
+                                 .Include(p => p.Category)
+                                 .Where(filter)
+                                 .AsNoTracking()
+                                 .ToListAsync();
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _table.FindAsync(id)
