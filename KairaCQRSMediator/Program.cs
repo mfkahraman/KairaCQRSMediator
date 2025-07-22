@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using KairaCQRSMediator.DataAccess.Context;
 using KairaCQRSMediator.Features.CQRS.Handlers.CategoryHandlers;
+using KairaCQRSMediator.Features.CQRS.Handlers.SubscribeHandlers;
 using KairaCQRSMediator.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -27,11 +28,17 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
 });
 
+//Category Handlers registration
 builder.Services.AddScoped<GetCategoryQueryHandler>();
 builder.Services.AddScoped<GetCategoryByIdQueryHandler>();
 builder.Services.AddScoped<CreateCategoryCommandHandler>();
 builder.Services.AddScoped<RemoveCategoryCommandHandler>();
 builder.Services.AddScoped<UpdateCategoryCommandHandler>();
+
+//Subscribe Handlers registration
+builder.Services.AddScoped<CreateSubscribeCommandHandler>();
+builder.Services.AddScoped<RemoveSubscribeCommandHandler>();
+builder.Services.AddScoped<GetSubscribesQueryHandler>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IImageService, ImageService>();

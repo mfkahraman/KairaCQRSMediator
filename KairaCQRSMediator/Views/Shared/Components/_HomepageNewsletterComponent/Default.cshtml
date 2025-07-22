@@ -1,4 +1,6 @@
-﻿
+﻿@using KairaCQRSMediator.Features.CQRS.Commands.SubscribeCommands
+@model CreateSubscribeCommand
+
 @*
     _HomepageNewsletterComponent
 *@
@@ -8,14 +10,51 @@
         <div class="row justify-content-center">
             <div class="col-md-8 py-5 my-5">
                 <div class="subscribe-header text-center pb-3">
-                    <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
+                    <h3 class="section-title text-uppercase">FIRSAT BİLGİLENDİRMELERİ İÇİN KAYIT OLUN</h3>
                 </div>
-                <form id="form" class="d-flex flex-wrap gap-2">
-                    <input type="text" name="email" placeholder="Your Email Addresss" class="form-control form-control-lg">
-                    <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
+                <form id="form" asp-controller="Main" asp-action="CreateSubscribe" class="d-flex flex-wrap gap-2">
+                    <input asp-for="Email" type="text" placeholder="Email adresiniz" class="form-control form-control-lg">
+                    <button type="submit" id="signUpButton" class="btn btn-dark btn-lg text-uppercase w-100">Kayıt Ol</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
 
+<script>
+    document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Formun default submit davranışını engelle
+
+        const formData = new FormData(this); // Formu al
+
+        $.ajax({
+            type: "POST",
+            url: "/Main/CreateSubscribe",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        title: "Başarılı!",
+                        text: response.message,
+                        icon: "success",
+                        showConfirmButton: true
+                    }).then(() => {
+                        window.location.href = "/Main/Homepage";
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    title: "Hata!",
+                    text: "Bir hata oluştu, lütfen tekrar deneyin.",
+                    icon: "error"
+                });
+            }
+        });
+    });
+</script>
+
+
+}
