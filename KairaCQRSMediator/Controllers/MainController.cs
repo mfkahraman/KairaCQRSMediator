@@ -16,7 +16,7 @@ namespace KairaCQRSMediator.Controllers
         {
 
             var result = await handler.Handle(command);
-            return Json(new { success = true, message = "Kiralama talebiniz başarıyla oluşturuldu!" });
+            return Json(new { success = true, message = "Abonelik talebiniz başarıyla oluşturuldu!" });
         }
     }
 }
