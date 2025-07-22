@@ -1,6 +1,6 @@
-﻿namespace KairaCQRSMediator.DataAccess.Entities
+﻿namespace KairaCQRSMediator.Features.CQRS.Results.SubscribeResults
 {
-    public class Subscribe : IEntity
+    public class GetSubscribesQueryResult
     {
         public int Id { get; set; }
         public string? Email { get; set; }
