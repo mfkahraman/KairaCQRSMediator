@@ -10,7 +10,7 @@ namespace KairaCQRSMediator.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            List<int> ids = new() {13, 9, 8, 11 };
+            List<int> ids = new() {13, 9, 8, 11};
 
             var bestSellers = await mediator.Send(new GetProductsByFilterQuery(p => ids.Contains(p.Id)));
 
